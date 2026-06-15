@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&family=Material+Icons&display=swap');
+
+/* ─── Design Tokens ─── */
+:root {
+  --navy-950: #0b1a33;
+  --navy-900: #112748;
+  --navy-800: #163469;
+  --navy-700: #1b4185;
+  --navy-600: #2150a6;
+  --navy-500: #2a5fc0;
+  --navy-400: #3d78d1;
+  --navy-300: #6fa0e2;
+  --navy-200: #a7c6ef;
+  --navy-100: #d2e2f7;
+  --navy-50:  #eaf1fb;
+
+  --bone-100: #f6f3eb;
+  --bone-300: #dbd4c3;
+  --cream:    #fcfbf7;
+
+  --fg1: #10150e;
+  --fg2: #353a31;
+  --fg3: #5c6258;
+
+  --danger: #b5462f;
+  --danger-bg: #f9dedc;
+
+  --divider: #ece7da;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+
+  --shadow-md: 0px 4px 12px 0px rgba(10, 32, 23, 0.08);
+  --shadow-lg: 0px 4px 12px 0px rgba(10, 33, 23, 0.12);
+}
+
+/* ─── Reset & Base ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  color: var(--fg1);
+  background: var(--cream);
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ─── Scroll Animation Base ─── */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-animate="fade-left"] {
+  transform: translateX(-48px);
+}
+
+[data-animate="fade-right"] {
+  transform: translateX(48px);
+}
+
+[data-animate="fade-scale"] {
+  transform: translateY(16px) scale(0.96);
+}
+
+[data-animate="stagger"] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── Overline label ─── */
+.overline {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--navy-500);
+  text-transform: uppercase;
+}
+
+.overline--light {
+  color: var(--navy-200);
+}
+
+/* ─── Section heading ─── */
+.section-heading {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: -0.44px;
+  line-height: 1.05;
+  color: var(--navy-950);
+}
+
+.section-heading--light {
+  color: var(--cream);
+}
+
+/* ─── Blue rule accent ─── */
+.rule-accent {
+  width: 48px;
+  height: 3px;
+  background: var(--navy-300);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── Top accent bar ─── */
+.top-accent-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--navy-300);
+}
+
+/* ─── Section divider ─── */
+.divider-blue {
+  width: 100%;
+  height: 2px;
+  background: var(--navy-300);
+}
+
+/* ─── Material Icons ─── */
+.material-icons {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  [data-animate], [data-animate="fade-left"], [data-animate="fade-right"],
+  [data-animate="fade-scale"], [data-animate="stagger"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

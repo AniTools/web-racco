@@ -1,0 +1,74 @@
+---
+const logos = [
+  { src: "https://www.figma.com/api/mcp/asset/b3ebcecc-99e6-4bb3-bce1-56d8bac1d529", alt: "Partner logo", w: 98, h: 78 },
+  { src: "https://www.figma.com/api/mcp/asset/a7adeffb-c184-4625-877f-cea4a472d5eb", alt: "Partner logo", w: 85, h: 82 },
+  { src: "https://www.figma.com/api/mcp/asset/c1d39028-4f68-417f-b24b-4565dacc308f", alt: "Partner logo", w: 140, h: 80 },
+  { src: "https://www.figma.com/api/mcp/asset/bdce1bfa-88af-47c2-ac85-7c1ec6a49fc7", alt: "Partner logo", w: 140, h: 80 },
+  { src: "https://www.figma.com/api/mcp/asset/8e735670-6e83-44bb-ac25-37831b8acc11", alt: "Partner logo", w: 140, h: 80 },
+];
+---
+<div class="partners-wrapper">
+  <div class="divider-blue"></div>
+  <section class="partners">
+    <p class="overline partners-label" data-animate>PARTNERS</p>
+    <div class="partners-logos" data-stagger-parent>
+      {logos.map((logo, i) => (
+        <div class="partner-logo-wrap" data-animate="stagger" data-delay={i * 80}>
+          <img
+            src={logo.src}
+            alt={logo.alt}
+            width={logo.w}
+            height={logo.h}
+            style="object-fit: contain; max-height: 80px;"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+  <div class="divider-blue"></div>
+</div>
+
+<style>
+.partners-wrapper {
+  background: var(--bone-100);
+}
+
+.partners {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  padding: 28px 128px;
+  min-height: 110px;
+}
+
+.partners-label {
+  flex-shrink: 0;
+  color: var(--navy-500);
+}
+
+.partners-logos {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.partner-logo-wrap {
+  display: flex;
+  align-items: center;
+  filter: grayscale(0.2);
+  transition: filter 0.2s, opacity 0.2s;
+  opacity: 0.85;
+}
+
+.partner-logo-wrap:hover {
+  filter: none;
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .partners { flex-direction: column; padding: 24px; gap: 24px; }
+  .partners-logos { justify-content: center; }
+}
+</style>

@@ -1,0 +1,205 @@
+---
+const traditionalItems = [
+  { icon: "bolt", label: "Dedicated Charger at Every Stall" },
+  { icon: "cable", label: "Extensive Wiring Requirements" },
+  { icon: "payments", label: "Higher Cost per Charging Port" },
+  { icon: "wifi_off", label: "Network-Dependent Load Management" },
+  { icon: "phone_iphone", label: "App or RFID Required" },
+  { icon: "credit_card_off", label: "Complex Payment Experience" },
+];
+
+const rdxItems = [
+  { icon: "hub", label: "Centralized Multi-Port Platform" },
+  { icon: "download_for_offline", label: "Simplified Installation" },
+  { icon: "wifi", label: "Reduced Wiring" },
+  { icon: "contactless", label: "Intelligent Local Load Sharing" },
+  { icon: "savings", label: "Lower Cost per Port" },
+  { icon: "power", label: "Plug & Charge" },
+  { icon: "request_page", label: "Simple & Transparent Smart Billing" },
+];
+---
+<section class="intro">
+  <div class="intro-inner">
+    <div class="intro-text" data-animate="fade-left">
+      <p class="overline">Pioneering AI-Driven Centralized EV Charging for a Connected World</p>
+      <h2 class="section-heading intro-heading">Less hardware.<br/>Less wiring.<br/>More charging.</h2>
+      <div class="rule-accent"></div>
+      <p class="intro-body">
+        Most EV charging deployments require one charger per stall. Our centralized hub powers multiple stalls from a single intelligent platform, reducing installation and wiring costs while maximizing charging access, with easier maintenance.
+      </p>
+    </div>
+
+    <div class="intro-cards" data-animate="fade-right" data-delay="150">
+      <!-- Traditional card -->
+      <div class="card-traditional">
+        <div class="card-accent-top card-accent-danger"></div>
+        <div class="card-icon-wrap card-icon-danger">
+          <span class="material-icons" style="color: var(--danger);">close</span>
+        </div>
+        <p class="card-title" style="color: var(--fg1);">Traditional</p>
+        <ul class="card-list">
+          {traditionalItems.map(item => (
+            <li class="card-list-item">
+              <span class="material-icons" style="color: var(--danger); font-size: 20px;">{item.icon}</span>
+              <span class="card-list-text">{item.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- RDX card -->
+      <div class="card-rdx">
+        <div class="card-accent-left"></div>
+        <div class="card-icon-wrap card-icon-rdx">
+          <span class="material-icons" style="color: var(--navy-300);">check_circle</span>
+        </div>
+        <p class="card-title" style="color: white;">RDX System</p>
+        <ul class="card-list">
+          {rdxItems.map(item => (
+            <li class="card-list-item">
+              <span class="material-icons" style="color: var(--navy-300); font-size: 20px;">{item.icon}</span>
+              <span class="card-list-text" style="color: var(--navy-200);">{item.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.intro {
+  background: var(--cream);
+  padding: 80px 128px;
+  overflow: hidden;
+}
+
+.intro-inner {
+  max-width: 1184px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+
+.intro-text {
+  flex: 0 0 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.intro-heading {
+  font-size: clamp(32px, 3.5vw, 44px);
+}
+
+.intro-body {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--fg3);
+  max-width: 500px;
+}
+
+/* Cards container */
+.intro-cards {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Traditional */
+.card-traditional {
+  background: white;
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  width: 240px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transform: rotate(-1.31deg);
+  flex-shrink: 0;
+}
+
+.card-accent-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.card-accent-danger { background: var(--danger); }
+
+.card-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.card-icon-danger { background: var(--danger-bg); }
+.card-icon-rdx    { background: #122650; }
+
+.card-title {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-list-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-list-text {
+  font-size: 12px;
+  font-family: 'Schibsted Grotesk', sans-serif;
+  color: var(--fg1);
+  line-height: 1.3;
+}
+
+/* RDX card */
+.card-rdx {
+  background: var(--navy-800);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  width: 242px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transform: rotate(6.23deg);
+  flex-shrink: 0;
+}
+
+.card-accent-left {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--navy-300);
+}
+
+@media (max-width: 1024px) {
+  .intro-inner { flex-direction: column; gap: 48px; }
+  .intro-text { flex: none; max-width: 100%; }
+  .intro-cards { padding: 40px 0; }
+}
+
+@media (max-width: 768px) {
+  .intro { padding: 48px 24px; }
+  .intro-cards { flex-direction: column; align-items: center; }
+  .card-traditional, .card-rdx { transform: none; }
+}
+</style>

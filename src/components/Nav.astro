@@ -1,0 +1,241 @@
+---
+---
+<header class="rdx-nav">
+  <div class="nav-top-bar"></div>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">RACCODYNAMX</a>
+    <nav class="nav-links">
+      <a href="#hero"    class="nav-link">Home</a>
+      <a href="#product" class="nav-link">Product</a>
+      <a href="#team"    class="nav-link">Our Team</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Book a Free Assessment</a>
+
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <nav class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <a href="#hero"    class="drawer-link">Home</a>
+    <a href="#product" class="drawer-link">Product</a>
+    <a href="#team"    class="drawer-link">Our Team</a>
+    <a href="#contact" class="drawer-link">Contact</a>
+    <a href="#contact" class="drawer-cta">Book a Free Assessment</a>
+  </nav>
+</header>
+
+<style>
+.rdx-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: var(--navy-900);
+  border-bottom: 1px solid #1a3361;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.rdx-nav.scrolled {
+  background: rgba(17, 39, 72, 0.97);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+}
+
+.nav-top-bar { height: 3px; background: var(--navy-300); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 48px;
+}
+
+.nav-logo {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: white;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+/* Desktop links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 4px;
+}
+
+.nav-link {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 14px;
+  color: var(--navy-50);
+  padding: 10px 20px;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--navy-200);
+  transform: scaleX(0);
+  transition: transform 0.25s;
+}
+
+.nav-link.active::after,
+.nav-link:hover::after { transform: scaleX(1); }
+
+.nav-cta {
+  margin-left: 32px;
+  background: var(--navy-300);
+  color: var(--fg1);
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.nav-cta:hover { background: var(--navy-200); transform: translateY(-1px); }
+
+/* Hamburger — hidden on desktop */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--navy-50);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.rdx-nav.menu-open .nav-hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.rdx-nav.menu-open .nav-hamburger span:nth-child(2) { opacity: 0; }
+.rdx-nav.menu-open .nav-hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile drawer */
+.nav-drawer {
+  display: flex;
+  flex-direction: column;
+  background: var(--navy-900);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+
+.rdx-nav.menu-open .nav-drawer {
+  max-height: 400px;
+  border-top: 1px solid #1a3361;
+}
+
+.drawer-link {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 16px;
+  color: var(--navy-50);
+  padding: 14px 24px;
+  transition: background 0.15s;
+}
+
+.drawer-link:hover         { background: rgba(111,160,226,0.08); }
+.drawer-link.active        { color: var(--navy-200); background: rgba(111,160,226,0.06); }
+
+.drawer-cta {
+  display: inline-block;
+  margin: 12px 24px 16px;
+  background: var(--navy-300);
+  color: var(--fg1);
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 20px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.drawer-cta:hover { background: var(--navy-200); }
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+  .nav-inner { padding: 0 20px; }
+  .nav-links  { display: none; }
+  .nav-cta    { display: none; }
+  .nav-hamburger { display: flex; }
+}
+</style>
+
+<script>
+  const nav    = document.querySelector('.rdx-nav')      as HTMLElement;
+  const btn    = nav.querySelector('.nav-hamburger')     as HTMLButtonElement;
+  const drawer = nav.querySelector('.nav-drawer')        as HTMLElement;
+
+  // ── Hamburger toggle ──
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('menu-open');
+    btn.setAttribute('aria-expanded', String(open));
+    drawer.setAttribute('aria-hidden', String(!open));
+  });
+
+  drawer.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('menu-open');
+      btn.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  // ── Scroll background ──
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ── Active link tracking ──
+  const sectionIds = ['hero', 'product', 'team', 'contact'];
+  const allLinks   = document.querySelectorAll<HTMLAnchorElement>('.nav-link, .drawer-link');
+  const NAV_H      = 70; // approximate nav height
+
+  function setActive(id: string) {
+    allLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+    });
+  }
+
+  function onScroll() {
+    let current = sectionIds[0];
+    for (const id of sectionIds) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= NAV_H + 16) {
+        current = id;
+      }
+    }
+    setActive(current);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // set on load
+</script>

@@ -1,0 +1,128 @@
+---
+const specs = [
+  { value: "80 A",      label: "Per Port, Dynamically Balanced", num: 80,   suffix: " A"  },
+  { value: "19.2 kW",   label: "Per Port, Max Output",           num: 19.2, suffix: " kW", decimals: 1 },
+  { value: "6–18",      label: "Ports per Hub",                  num: 18,   num2: 6       },
+  { value: "Up to 80%", label: "Fewer Panel Upgrades",           num: 80,   suffix: "%", prefix: "Up to " },
+];
+---
+<div class="specs-wrapper" id="product">
+  <div class="divider-blue"></div>
+  <section class="specs" data-stagger-parent>
+    {specs.map((s, i) => (
+      <>
+        {i > 0 && <div class="spec-divider"></div>}
+        <div class="spec-item" data-animate="stagger" data-delay={i * 80}>
+          <span
+            class="spec-value"
+            data-count
+            data-num={s.num}
+            data-num2={s.num2 ?? ''}
+            data-prefix={s.prefix ?? ''}
+            data-suffix={s.suffix ?? ''}
+            data-decimals={s.decimals ?? 0}
+          >{s.value}</span>
+          <span class="spec-label">{s.label}</span>
+        </div>
+      </>
+    ))}
+  </section>
+  <div class="divider-blue"></div>
+</div>
+
+<style>
+.specs-wrapper { background: var(--navy-900); }
+
+.divider-blue { height: 2px; background: var(--navy-300); }
+
+.specs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 128px;
+  background: var(--navy-900);
+  overflow: hidden;
+}
+
+.spec-divider {
+  width: 1px;
+  height: 52px;
+  background: #1a3866;
+  flex-shrink: 0;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.spec-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.spec-label {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 11px;
+  color: var(--navy-200);
+  max-width: 180px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .specs { flex-wrap: wrap; padding: 24px; gap: 24px; }
+  .spec-divider { display: none; }
+}
+</style>
+
+<script>
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+function animateCounter(el: HTMLElement) {
+  const target   = parseFloat(el.dataset.num!);
+  const target2  = el.dataset.num2 ? parseFloat(el.dataset.num2) : null;
+  const decimals = parseInt(el.dataset.decimals ?? '0');
+  const prefix   = el.dataset.prefix ?? '';
+  const suffix   = el.dataset.suffix ?? '';
+  const duration = 1600;
+  const start    = performance.now();
+
+  const fmt = (n: number) =>
+    decimals > 0 ? n.toFixed(decimals) : String(Math.round(n));
+
+  const tick = (now: number) => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased    = easeOut(progress);
+    const cur      = target * eased;
+
+    el.textContent = target2 !== null
+      ? `${prefix}${fmt(target2 * eased)}–${fmt(cur)}${suffix}`
+      : `${prefix}${fmt(cur)}${suffix}`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      el.textContent = target2 !== null
+        ? `${prefix}${fmt(target2)}–${fmt(target)}${suffix}`
+        : `${prefix}${fmt(target)}${suffix}`;
+    }
+  };
+
+  requestAnimationFrame(tick);
+}
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target as HTMLElement);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+
+document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => obs.observe(el));
+</script>

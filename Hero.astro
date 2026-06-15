@@ -1,0 +1,120 @@
+---
+const heroImg = "https://www.figma.com/api/mcp/asset/0c32cd7f-caa9-4888-a646-40b7cf91c781";
+---
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src={heroImg} alt="" aria-hidden="true" class="hero-bg-img" />
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-text" data-animate="fade-left">
+      <p class="overline overline--light hero-eyebrow">Centralized AC Level 2 Charging</p>
+      <h1 class="hero-heading">One Hub.<br/>More Charging.<br/>Less Infrastructure.</h1>
+      <div class="rule-accent" style="background: var(--navy-300);"></div>
+    </div>
+  </div>
+  <!-- Ambient floating particles -->
+  <div class="hero-particles" aria-hidden="true">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+  </div>
+</section>
+
+<style>
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  max-height: 760px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 67px; /* nav height */
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-bg-img {
+  width: 101.25%;
+  height: 100.37%;
+  object-fit: cover;
+  position: absolute;
+  top: -0.28%;
+  left: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 26, 51, 0.88) 0%,
+    rgba(17, 39, 72, 0.65) 45%,
+    rgba(17, 39, 72, 0.1) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 128px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 540px;
+}
+
+.hero-eyebrow {
+  font-size: 13px;
+  letter-spacing: 1.5px;
+}
+
+.hero-heading {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  color: var(--cream);
+}
+
+/* Ambient particles — como chispas de una estación de carga */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--navy-300);
+  opacity: 0.15;
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+.p1 { width: 200px; height: 200px; right: 20%; top: 20%; animation-duration: 9s; }
+.p2 { width: 80px;  height: 80px;  right: 35%; bottom: 30%; animation-duration: 7s; animation-delay: -3s; opacity: 0.08; }
+.p3 { width: 140px; height: 140px; right: 10%; bottom: 20%; animation-duration: 11s; animation-delay: -5s; opacity: 0.06; }
+
+@keyframes float-particle {
+  0%, 100% { transform: translate(0, 0); }
+  33%  { transform: translate(12px, -18px); }
+  66%  { transform: translate(-8px, 10px); }
+}
+
+@media (max-width: 768px) {
+  .hero-content { padding: 0 24px; }
+}
+</style>

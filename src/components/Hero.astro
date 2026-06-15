@@ -1,0 +1,150 @@
+---
+const heroImg = "https://www.figma.com/api/mcp/asset/0c32cd7f-caa9-4888-a646-40b7cf91c781";
+---
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src={heroImg} alt="" aria-hidden="true" class="hero-bg-img" />
+    <div class="hero-overlay"></div>
+  </div>
+
+  <!-- Floating light particles -->
+  <div class="hero-particles" aria-hidden="true">
+    <span class="lp lp1"></span>
+    <span class="lp lp2"></span>
+    <span class="lp lp3"></span>
+    <span class="lp lp4"></span>
+    <span class="lp lp5"></span>
+    <span class="lp lp6"></span>
+    <span class="lp lp7"></span>
+    <span class="lp lp8"></span>
+    <span class="lp lp9"></span>
+    <span class="lp lp10"></span>
+    <span class="lp lp11"></span>
+    <span class="lp lp12"></span>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-text" data-animate="fade-left">
+      <p class="overline overline--light hero-eyebrow">Centralized AC Level 2 Charging</p>
+      <h1 class="hero-heading">One Hub.<br/>More Charging.<br/>Less Infrastructure.</h1>
+      <div class="rule-accent" style="background: var(--navy-300);"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 560px;
+  max-height: 760px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 67px;
+}
+
+.hero-bg { position: absolute; inset: 0; }
+
+.hero-bg-img {
+  width: 101.25%;
+  height: 100.37%;
+  object-fit: cover;
+  position: absolute;
+  top: -0.28%;
+  left: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(11, 26, 51, 0.90) 0%,
+    rgba(17, 39, 72, 0.65) 48%,
+    rgba(17, 39, 72, 0.12) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 128px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 540px;
+}
+
+.hero-eyebrow { font-size: 13px; letter-spacing: 1.5px; }
+
+.hero-heading {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(38px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+  color: var(--cream);
+}
+
+/* ── Light particles ── */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lp {
+  position: absolute;
+  border-radius: 50%;
+  background: #a7c6ef;
+  box-shadow: 0 0 6px 2px rgba(111, 160, 226, 0.6);
+  animation: lp-float linear infinite;
+}
+
+/* sizes */
+.lp1  { width: 3px;   height: 3px;  }
+.lp2  { width: 2px;   height: 2px;  }
+.lp3  { width: 4px;   height: 4px;  }
+.lp4  { width: 2px;   height: 2px;  }
+.lp5  { width: 3px;   height: 3px;  }
+.lp6  { width: 2px;   height: 2px;  }
+.lp7  { width: 4px;   height: 4px;  }
+.lp8  { width: 2px;   height: 2px;  }
+.lp9  { width: 3px;   height: 3px;  }
+.lp10 { width: 2px;   height: 2px;  }
+.lp11 { width: 3px;   height: 3px;  }
+.lp12 { width: 2px;   height: 2px;  }
+
+/* spread across the hero */
+.lp1  { left: 62%; top: 78%; animation-duration: 14s; animation-delay: 0s;    --dy: -520px; --dx:  18px; opacity: 0.7; }
+.lp2  { left: 71%; top: 85%; animation-duration: 11s; animation-delay: -3s;   --dy: -480px; --dx: -12px; opacity: 0.5; }
+.lp3  { left: 55%; top: 90%; animation-duration: 16s; animation-delay: -6s;   --dy: -560px; --dx:  25px; opacity: 0.8; }
+.lp4  { left: 80%; top: 70%; animation-duration: 12s; animation-delay: -1.5s; --dy: -440px; --dx:  -8px; opacity: 0.5; }
+.lp5  { left: 68%; top: 80%; animation-duration: 18s; animation-delay: -9s;   --dy: -600px; --dx:  14px; opacity: 0.6; }
+.lp6  { left: 76%; top: 65%; animation-duration: 13s; animation-delay: -4s;   --dy: -400px; --dx: -20px; opacity: 0.5; }
+.lp7  { left: 58%; top: 72%; animation-duration: 15s; animation-delay: -7s;   --dy: -500px; --dx:  30px; opacity: 0.75;}
+.lp8  { left: 85%; top: 88%; animation-duration: 10s; animation-delay: -2s;   --dy: -460px; --dx:  -6px; opacity: 0.4; }
+.lp9  { left: 73%; top: 60%; animation-duration: 17s; animation-delay: -5s;   --dy: -540px; --dx:  20px; opacity: 0.6; }
+.lp10 { left: 64%; top: 95%; animation-duration: 12s; animation-delay: -8s;   --dy: -580px; --dx: -15px; opacity: 0.5; }
+.lp11 { left: 88%; top: 75%; animation-duration: 14s; animation-delay: -11s;  --dy: -460px; --dx:  10px; opacity: 0.55;}
+.lp12 { left: 52%; top: 82%; animation-duration: 19s; animation-delay: -13s;  --dy: -620px; --dx: -22px; opacity: 0.45;}
+
+@keyframes lp-float {
+  0%   { transform: translate(0, 0)                   scale(1);   opacity: 0;    }
+  5%   { opacity: var(--op, 0.6); }
+  90%  { opacity: var(--op, 0.6); }
+  100% { transform: translate(var(--dx), var(--dy))   scale(0.4); opacity: 0;    }
+}
+
+@media (max-width: 768px) {
+  .hero-content { padding: 0 24px; }
+}
+</style>

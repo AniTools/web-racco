@@ -1,0 +1,110 @@
+---
+---
+<header class="rdx-nav">
+  <div class="nav-top-bar"></div>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">RACCODYNAMX</a>
+    <nav class="nav-links">
+      <a href="#hero" class="nav-link active">Home</a>
+      <a href="#product" class="nav-link">Product</a>
+      <a href="#team" class="nav-link">Our Team</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Book a Free Assessment</a>
+  </div>
+</header>
+
+<style>
+.rdx-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--navy-900);
+  border-bottom: 1px solid #1a3361;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rdx-nav.scrolled {
+  background: rgba(17, 39, 72, 0.97);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  backdrop-filter: blur(8px);
+}
+
+.nav-top-bar {
+  height: 3px;
+  background: var(--navy-300);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 48px;
+  gap: 0;
+}
+
+.nav-logo {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: white;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 4px;
+}
+
+.nav-link {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 14px;
+  color: var(--navy-50);
+  padding: 10px 20px;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--navy-200);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.nav-link.active::after,
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link.active {
+  border-bottom: 1.5px solid var(--navy-200);
+}
+
+.nav-cta {
+  margin-left: 32px;
+  background: var(--navy-300);
+  color: var(--fg1);
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.nav-cta:hover {
+  background: var(--navy-200);
+  transform: translateY(-1px);
+}
+</style>

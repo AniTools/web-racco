@@ -1,0 +1,133 @@
+---
+const ctaBg = "https://www.figma.com/api/mcp/asset/b0f5d9d3-d6d3-4185-9e54-809e2e21feb7";
+---
+<section class="cta">
+  <div class="cta-bg">
+    <img src={ctaBg} alt="" aria-hidden="true" loading="lazy" />
+    <div class="cta-overlay"></div>
+  </div>
+  <div class="cta-content" data-animate="fade-left">
+    <h2 class="cta-heading">Ready to power<br/>your building?</h2>
+    <p class="cta-sub">
+      Talk to our team and get a free site assessment and a custom charging solution for your property.
+    </p>
+    <div class="cta-actions">
+      <a href="#contact" class="btn-primary">
+        Get a Quote
+        <span class="material-icons" style="font-size: 16px; margin-left: 8px;">arrow_forward</span>
+      </a>
+      <a href="#how-it-works" class="btn-secondary">
+        Learn More
+        <span class="material-icons" style="font-size: 16px; margin-left: 8px;">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+.cta {
+  position: relative;
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+  padding: 80px 128px;
+  overflow: hidden;
+}
+
+.cta-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.cta-bg img {
+  width: 100%;
+  height: 114.47%;
+  object-fit: cover;
+  position: absolute;
+  top: -12.11%;
+  left: 0;
+}
+
+.cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #112748 7%,
+    rgba(17, 39, 72, 0.7) 47%,
+    rgba(43, 103, 207, 0) 70%
+  );
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cta-heading {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 3.5vw, 44px);
+  letter-spacing: -0.44px;
+  line-height: 1.1;
+  color: white;
+}
+
+.cta-sub {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--navy-200);
+  line-height: 1.55;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  background: var(--navy-300);
+  color: var(--fg1);
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: 24px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--navy-200);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--navy-200);
+  color: white;
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: 24px;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-secondary:hover {
+  background: rgba(167, 198, 239, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .cta { padding: 48px 24px; }
+}
+</style>

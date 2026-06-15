@@ -1,0 +1,151 @@
+---
+const teamImgs = [
+  "https://www.figma.com/api/mcp/asset/82827846-c880-4e7d-90bb-ea2abecca89b",
+  "https://www.figma.com/api/mcp/asset/c656d8af-4128-4356-be7b-d6e85fe05155",
+  "https://www.figma.com/api/mcp/asset/0a02c18e-5222-40c1-84c6-314e3c084c83",
+  "https://www.figma.com/api/mcp/asset/7b99c6e6-e462-4af1-afd7-0dead804f3eb",
+];
+
+const members = [
+  { name: "Mojtaba Shafa", role: "CEO", bio: "Electrical Engineering, Ph.D.", accent: "#3d78d1" },
+  { name: "Mohammad Mah", role: "CTO", bio: "Electrical Engineering, Ph.D.", accent: "var(--navy-300)" },
+  { name: "Helen Platis", role: "CPO", bio: "Product & Strategy Lead", accent: "#3d78d1" },
+  { name: "Zohreh Emamipour", role: "Project Manager", bio: "Operations & Delivery", accent: "#3d78d1" },
+];
+---
+<div class="team-wrapper" id="team">
+  <div style="height: 4px; background: var(--navy-300);"></div>
+  <section class="team">
+    <div class="team-inner">
+      <div class="team-header" data-animate="fade-left">
+        <p class="overline">LEADERSHIP</p>
+        <h2 class="section-heading">The people behind<br/>Raccodynamx</h2>
+        <div class="rule-accent"></div>
+        <p class="team-sub">
+          Our team is composed of highly skilled professionals, each an expert in their field. With years of industry experience, we bring deep expertise and innovation to every project.
+        </p>
+      </div>
+      <div class="team-grid" data-stagger-parent>
+        {members.map((m, i) => (
+          <article class="team-card" data-animate="stagger" data-delay={i * 100}>
+            <div class="team-card-accent" style={`background: ${m.accent}`}></div>
+            <div class="team-photo-wrap">
+              <img
+                src={teamImgs[i]}
+                alt={m.name}
+                class="team-photo"
+                loading="lazy"
+              />
+            </div>
+            <p class="team-name">{m.name}</p>
+            <p class="team-role">{m.role}</p>
+            <p class="team-bio">{m.bio}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+.team-wrapper {
+  background: #fcfbf7;
+}
+
+.team {
+  background: #fcfbf7;
+  padding: 64px 128px;
+  overflow: hidden;
+}
+
+.team-inner {
+  max-width: 1184px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.team-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 700px;
+}
+
+.team-sub {
+  font-size: 16px;
+  color: var(--fg3);
+  line-height: 1.65;
+  max-width: 820px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.team-card {
+  background: white;
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.team-card-accent {
+  height: 3px;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+
+.team-photo-wrap {
+  margin: 16px 16px 0;
+  height: 220px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--divider);
+  background: var(--bone-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.team-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fg1);
+  padding: 12px 16px 2px;
+}
+
+.team-role {
+  font-size: 12px;
+  color: var(--navy-400);
+  padding: 0 16px 4px;
+}
+
+.team-bio {
+  font-size: 12px;
+  color: var(--fg3);
+  padding: 0 16px 16px;
+}
+
+@media (max-width: 900px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .team { padding: 48px 24px; }
+}
+</style>

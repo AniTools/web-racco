@@ -1,0 +1,369 @@
+---
+const buildingPhoto = "/R_ilustrations.png";
+---
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <!-- Left: Form -->
+    <div class="contact-form-col" data-animate="fade-left">
+      <div class="contact-header">
+        <p class="overline">CONTACT</p>
+        <h2 class="section-heading">Start Your EV<br/>Charging Project</h2>
+        <div class="rule-accent"></div>
+        <p class="contact-sub">
+          Tell us about your property and we'll recommend the right centralized charging solution for your building.
+        </p>
+      </div>
+      <form class="contact-form" id="contact-form">
+        <div class="field-group">
+          <label class="field-label" for="cf-name">Full name</label>
+          <input id="cf-name" type="text" name="name" placeholder="Your name" class="field-input" required />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="cf-email">Email address</label>
+          <input id="cf-email" type="email" name="email" placeholder="you@example.com" class="field-input" required />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="cf-phone">Phone Number</label>
+          <input id="cf-phone" type="tel" name="phone" placeholder="Your phone" class="field-input" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="cf-type">Building Type</label>
+          <select id="cf-type" name="building_type" class="field-input field-select">
+            <option value="" disabled selected>Residential / Commercial</option>
+            <option>Residential</option>
+            <option>Commercial</option>
+            <option>Mixed Use</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="cf-address">Building Address</label>
+          <input id="cf-address" type="text" name="address" placeholder="Address" class="field-input" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" placeholder="Tell us about your project" class="field-input field-textarea" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="cf-submit">
+          <span class="btn-label">Send Message</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="form-success" id="form-success" aria-live="polite">
+          ✓ Message sent! We'll be in touch within 1 business day.
+        </p>
+        <p class="form-error" id="form-error" aria-live="polite">
+          Something went wrong. Please try again or email us directly.
+        </p>
+      </form>
+    </div>
+
+    <!-- Right: Info + map -->
+    <div class="contact-info-col" data-animate="fade-right" data-delay="150">
+      <div class="info-card">
+        <div class="info-card-accent"></div>
+        <h3 class="info-title">Contact information</h3>
+        <div class="info-list">
+          <p class="info-item">
+            <span class="material-icons" style="font-size: 18px; color: var(--navy-400);">email</span>
+            info@raccodynamx.com
+          </p>
+          <p class="info-item">
+            <span class="material-icons" style="font-size: 18px; color: var(--navy-400);">phone</span>
+            +1 778 776 3940
+          </p>
+          <p class="info-item">
+            <span class="material-icons" style="font-size: 18px; color: var(--navy-400);">location_on</span>
+            Burnaby, BC, Canada
+          </p>
+          <p class="info-item">
+            <span class="material-icons" style="font-size: 18px; color: var(--navy-400);">schedule</span>
+            Response within 1 business day
+          </p>
+        </div>
+        <div class="info-divider"></div>
+        <p class="info-section-title">Free Site Assessment</p>
+        <p class="info-body">
+          We'll review your building, electrical capacity, and parking layout to recommend the most effective charging infrastructure solution.
+        </p>
+        <div class="info-checks">
+          <p>✓ No obligation</p>
+          <p>✓ Customized recommendation</p>
+          <p>✓ Response within 1 business day</p>
+        </div>
+      </div>
+      <div class="contact-photo">
+        <img src={buildingPhoto} alt="Raccodynamx installation" loading="lazy" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.contact {
+  background: var(--cream);
+  padding: 80px 96px;
+  overflow: hidden;
+}
+
+.contact-inner {
+  max-width: 1248px;
+  margin: 0 auto;
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+/* Form col */
+.contact-form-col {
+  flex: 0 0 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.contact-header {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-sub {
+  font-size: 17px;
+  color: var(--navy-950);
+  line-height: 1.55;
+  max-width: 500px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--fg2);
+  font-family: 'Schibsted Grotesk', sans-serif;
+}
+
+.field-input {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 13px;
+  color: var(--fg1);
+  background: white;
+  border: 1.5px solid var(--bone-300);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.field-input::placeholder { color: #8b9085; }
+
+.field-input:focus {
+  border-color: var(--navy-300);
+}
+
+.field-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.btn-submit {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: white;
+  background: var(--navy-800);
+  border: none;
+  border-radius: 18px;
+  padding: 14px 24px;
+  cursor: pointer;
+  width: 200px;
+  box-shadow: var(--shadow-lg);
+  transition: background 0.2s, transform 0.2s, opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--navy-700);
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.btn-submit.loading .btn-spinner { display: block; }
+.btn-submit.loading .btn-label   { opacity: 0.7; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.form-success,
+.form-error {
+  display: none;
+  font-size: 14px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.form-success { background: #e6f4ea; color: #1e7e34; border: 1px solid #b7dfbe; }
+.form-error   { background: var(--danger-bg); color: var(--danger); border: 1px solid #f5c6c0; }
+
+.form-success.visible,
+.form-error.visible { display: block; }
+
+/* Info col */
+.contact-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card-accent {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--navy-400);
+}
+
+.info-title {
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.22px;
+  color: var(--fg1);
+  margin-bottom: 20px;
+}
+
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--fg1);
+}
+
+.info-divider {
+  height: 1px;
+  background: var(--divider);
+  margin: 16px 0;
+}
+
+.info-section-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy-600);
+  margin-bottom: 8px;
+}
+
+.info-body {
+  font-size: 12px;
+  color: var(--fg3);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.info-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--fg3);
+}
+
+.contact-photo {
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 1024px) {
+  .contact-inner { flex-direction: column; gap: 48px; }
+  .contact-form-col { flex: none; max-width: 100%; }
+  .contact { padding: 48px 24px; }
+}
+</style>
+
+<script>
+const form    = document.getElementById('contact-form') as HTMLFormElement;
+const btn     = document.getElementById('cf-submit')    as HTMLButtonElement;
+const success = document.getElementById('form-success') as HTMLElement;
+const error   = document.getElementById('form-error')   as HTMLElement;
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Reset state
+  success.classList.remove('visible');
+  error.classList.remove('visible');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xeewvbry', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' },
+    });
+
+    if (res.ok) {
+      success.classList.add('visible');
+      form.reset();
+    } else {
+      error.classList.add('visible');
+    }
+  } catch {
+    error.classList.add('visible');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+</script>

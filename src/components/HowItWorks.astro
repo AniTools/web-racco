@@ -1,0 +1,200 @@
+---
+const steps = [
+  {
+    num: "01",
+    icon: "maps_home_work",
+    title: "Assess Parking Area",
+    body: "We visit your building, measure your electrical supply, count stalls, and size the system — no obligation.",
+  },
+  {
+    num: "02",
+    icon: "fact_check",
+    title: "Permits",
+    body: "Obtaining required permits from local municipalities.",
+  },
+  {
+    num: "03",
+    icon: "account_tree",
+    title: "Hub Installation",
+    body: "A centralized hub is installed in your electrical room, creating the foundation for every charging stall.",
+  },
+  {
+    num: "04",
+    icon: "cable",
+    title: "Stall Connections",
+    body: "Low-profile cabling connects the hub to each stall, minimizing disruption and installation costs.",
+  },
+  {
+    num: "05",
+    icon: "ev_station",
+    title: "Plug & Go",
+    body: "Residents plug in. The system identifies, charges, logs, and bills automatically.",
+  },
+];
+---
+<section class="how" id="how-it-works">
+  <div class="how-inner">
+    <div class="how-header" data-animate="fade-left">
+      <p class="overline overline--light">HOW IT WORKS</p>
+      <h2 class="section-heading section-heading--light">From site assessment<br/>to first charge</h2>
+    </div>
+
+    <!-- Animated step line -->
+    <div class="step-track" data-animate data-delay="200">
+      {steps.map((s, i) => (
+        <>
+          <div class="step-bubble" style={`animation-delay: ${i * 0.12}s`}>
+            <span class="step-num">{s.num}</span>
+          </div>
+          {i < steps.length - 1 && <div class="step-line" style={`--line-delay: ${(i * 0.12) + 0.3}s`}></div>}
+        </>
+      ))}
+    </div>
+
+    <!-- Step cards -->
+    <div class="step-cards" data-stagger-parent>
+      {steps.map((s, i) => (
+        <div class="step-card" data-animate="stagger" data-delay={i * 90}>
+          <div class="step-icon-wrap">
+            <span class="material-icons" style="color: var(--navy-200);">{s.icon}</span>
+          </div>
+          <h3 class="step-title">{s.title}</h3>
+          <p class="step-body">{s.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.how {
+  background: var(--navy-900);
+  padding: 80px 128px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* subtle grid texture */
+.how::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(111, 160, 226, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 160, 226, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.how-inner {
+  max-width: 1184px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+
+.how-header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Step track */
+.step-track {
+  display: flex;
+  align-items: center;
+  max-width: 960px;
+}
+
+.step-bubble {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--navy-200);
+  background: #122650;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.step-num {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--cream);
+}
+
+.step-line {
+  flex: 1;
+  height: 1px;
+  background: var(--navy-700);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated fill on the step line — como electricidad corriendo por el cable */
+.step-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--navy-300);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s ease;
+  transition-delay: var(--line-delay, 0s);
+}
+
+[data-animate].is-visible .step-line::after {
+  transform: scaleX(1);
+}
+
+/* Step cards */
+.step-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.step-icon-wrap {
+  width: 44px;
+  height: 44px;
+  background: #122650;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-title {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.step-body {
+  font-size: 12px;
+  color: var(--navy-200);
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .step-cards { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .step-track  { display: none; }
+  .how { padding: 48px 24px; }
+}
+</style>

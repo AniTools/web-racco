@@ -1,0 +1,176 @@
+---
+const drawing = "https://www.figma.com/api/mcp/asset/3a6d5ad1-247b-477e-8dcc-34259356478c";
+
+const values = [
+  {
+    icon: "gpp_good",
+    category: "RELIABILITY",
+    body: "Engineered for consistent performance, delivering dependable charging access for every resident, every day.",
+    bg: "var(--navy-800)",
+  },
+  {
+    icon: "spa",
+    category: "SUSTAINABILITY",
+    body: "Reducing infrastructure complexity, minimizing electrical upgrades, and supporting the transition to cleaner transportation.",
+    bg: "var(--navy-400)",
+  },
+  {
+    icon: "tips_and_updates",
+    category: "INNOVATION",
+    body: "Centralized charging infrastructure designed to challenge traditional EV charging models and unlock smarter, more scalable solutions.",
+    bg: "var(--navy-400)",
+  },
+  {
+    icon: "moving",
+    category: "SCALABILITY",
+    body: "Designed to grow with your building's needs. One centralized hub can support multiple stalls while adapting to future EV adoption.",
+    bg: "var(--navy-800)",
+  },
+];
+---
+<section class="mission">
+  <div class="mission-inner">
+    <div class="mission-left" data-animate="fade-left">
+      <div class="mission-text-block">
+        <p class="overline">OUR MISSION</p>
+        <h2 class="section-heading">Power, Shared.</h2>
+        <div class="rule-accent"></div>
+        <p class="mission-body">
+          We specialize in designing and developing innovative AI-Driven centralized charging solutions, uniting experts in power electronics, distribution systems, and electrical engineering.
+        </p>
+        <p class="mission-body">
+          Committed to sustainability and green energy, we aim to reduce carbon emissions and minimize environmental impact through cutting-edge technology.
+        </p>
+        <p class="mission-body">
+          Our goal is to create adaptable, efficient, and scalable charging systems that drive the global transition to clean energy.
+        </p>
+      </div>
+      <div class="mission-drawing" data-animate data-delay="200">
+        <img src={drawing} alt="Technical drawing" loading="lazy" />
+      </div>
+    </div>
+
+    <div class="mission-values" data-stagger-parent>
+      {values.map((v, i) => (
+        <div class="value-card" data-animate="stagger" data-delay={i * 80}>
+          <div class="value-icon-wrap" style={`background: ${v.bg};`}>
+            <span class="material-icons" style="color: var(--navy-300);">{v.icon}</span>
+          </div>
+          <div class="value-content">
+            <p class="value-category">{v.category}</p>
+            <p class="value-body">{v.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.mission {
+  background: white;
+  padding: 80px 128px;
+  overflow: hidden;
+}
+
+.mission-inner {
+  max-width: 1184px;
+  margin: 0 auto;
+  display: flex;
+  gap: 80px;
+  align-items: flex-start;
+}
+
+.mission-left {
+  flex: 0 0 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mission-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mission-body {
+  font-size: 14px;
+  color: var(--fg3);
+  line-height: 1.7;
+  max-width: 540px;
+}
+
+.mission-drawing {
+  max-width: 420px;
+}
+
+.mission-drawing img {
+  width: 100%;
+  height: auto;
+  opacity: 0.85;
+}
+
+/* Values grid */
+.mission-values {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.value-card {
+  background: white;
+  border: 1px solid var(--navy-100);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.value-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+}
+
+.value-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.value-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px;
+}
+
+.value-category {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--navy-400);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.value-body {
+  font-size: 11px;
+  color: var(--fg3);
+  line-height: 1.55;
+}
+
+@media (max-width: 1024px) {
+  .mission-inner { flex-direction: column; gap: 48px; }
+  .mission-left { flex: none; max-width: 100%; }
+  .mission { padding: 48px 24px; }
+}
+</style>

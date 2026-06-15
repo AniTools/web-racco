@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Raccodynamx — Centralized EV Charging</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&family=Material+Icons&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --navy-950:#0b1a33;--navy-900:#112748;--navy-800:#163469;--navy-700:#1b4185;
+  --navy-600:#2150a6;--navy-500:#2a5fc0;--navy-400:#3d78d1;--navy-300:#6fa0e2;
+  --navy-200:#a7c6ef;--navy-100:#d2e2f7;--navy-50:#eaf1fb;
+  --bone-100:#f6f3eb;--bone-300:#dbd4c3;--cream:#fcfbf7;
+  --fg1:#10150e;--fg2:#353a31;--fg3:#5c6258;
+  --danger:#b5462f;--danger-bg:#f9dedc;--divider:#ece7da;
+  --shadow-md:0px 4px 12px 0px rgba(10,32,23,0.08);
+  --shadow-lg:0px 4px 12px 0px rgba(10,33,23,0.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Schibsted Grotesk',sans-serif;color:var(--fg1);background:var(--cream);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.material-icons{font-family:'Material Icons';font-style:normal;font-weight:normal;font-size:24px;line-height:1;display:inline-block}
+[data-animate]{opacity:0;transform:translateY(32px);transition:opacity .95s cubic-bezier(.22,1,.36,1),transform .95s cubic-bezier(.22,1,.36,1)}
+[data-animate="fade-left"]{transform:translateX(-48px)}
+[data-animate="fade-right"]{transform:translateX(48px)}
+[data-animate="stagger"]{opacity:0;transform:translateY(24px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1)}
+[data-animate].is-visible{opacity:1;transform:none}
+.overline{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;color:var(--navy-500);text-transform:uppercase;letter-spacing:.5px}
+.overline--light{color:var(--navy-200)}
+.section-heading{font-family:'Schibsted Grotesk',sans-serif;font-weight:700;font-size:44px;letter-spacing:-.44px;line-height:1.05;color:var(--navy-950)}
+.section-heading--light{color:var(--cream)}
+.rule-accent{width:48px;height:3px;background:var(--navy-300);border-radius:2px;flex-shrink:0}
+.divider-blue{width:100%;height:2px;background:var(--navy-300)}
+
+/* NAV */
+.rdx-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--navy-900);border-bottom:1px solid #1a3361;transition:background .3s,box-shadow .3s}
+.rdx-nav.scrolled{background:rgba(17,39,72,.97);box-shadow:0 4px 24px rgba(0,0,0,.3);backdrop-filter:blur(8px)}
+.nav-top-bar{height:3px;background:var(--navy-300)}
+.nav-inner{display:flex;align-items:center;height:64px;padding:0 48px}
+.nav-logo{font-family:'Schibsted Grotesk',sans-serif;font-weight:800;font-size:18px;color:white;letter-spacing:1px}
+.nav-links{display:flex;align-items:center;margin-left:auto;gap:4px}
+.nav-link{font-size:14px;color:var(--navy-50);padding:10px 20px;position:relative;transition:color .2s}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:var(--navy-200);transform:scaleX(0);transition:transform .25s}
+.nav-link.active::after,.nav-link:hover::after{transform:scaleX(1)}
+.nav-link.active{border-bottom:1.5px solid var(--navy-200)}
+.nav-cta{margin-left:32px;background:var(--navy-300);color:var(--fg1);font-weight:600;font-size:13px;padding:10px 20px;border-radius:20px;white-space:nowrap;transition:background .2s,transform .2s;flex-shrink:0}
+.nav-cta:hover{background:var(--navy-200);transform:translateY(-1px)}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:560px;max-height:760px;display:flex;align-items:center;overflow:hidden;padding-top:67px}
+.hero-bg{position:absolute;inset:0}
+.hero-bg-img{width:101.25%;height:100.37%;object-fit:cover;position:absolute;top:-0.28%;left:0}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,26,51,.88) 0%,rgba(17,39,72,.65) 45%,rgba(17,39,72,.1) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 128px;max-width:1440px;width:100%;margin:0 auto}
+.hero-text{display:flex;flex-direction:column;gap:20px;max-width:540px}
+.hero-heading{font-family:'Schibsted Grotesk',sans-serif;font-weight:700;font-size:clamp(38px,5vw,56px);line-height:1.05;letter-spacing:-.5px;color:var(--cream)}
+.hero-particles{position:absolute;inset:0;pointer-events:none;z-index:1}
+.particle{position:absolute;border-radius:50%;background:var(--navy-300);opacity:.15;animation:float-particle 8s ease-in-out infinite}
+.p1{width:200px;height:200px;right:20%;top:20%;animation-duration:9s}
+.p2{width:80px;height:80px;right:35%;bottom:30%;animation-duration:7s;animation-delay:-3s;opacity:.08}
+.p3{width:140px;height:140px;right:10%;bottom:20%;animation-duration:11s;animation-delay:-5s;opacity:.06}
+@keyframes float-particle{0%,100%{transform:translate(0,0)}33%{transform:translate(12px,-18px)}66%{transform:translate(-8px,10px)}}
+
+/* SPECS */
+.specs-wrapper{background:var(--navy-900)}
+.specs{display:flex;align-items:center;justify-content:space-between;padding:24px 128px;background:var(--navy-900)}
+.spec-divider{width:1px;height:52px;background:#1a3866;flex-shrink:0}
+.spec-item{display:flex;flex-direction:column;gap:6px}
+.spec-value{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:32px;color:var(--cream);line-height:1}
+.spec-label{font-size:11px;color:var(--navy-200);max-width:180px;line-height:1.4}
+
+/* INTRO */
+.intro{background:var(--cream);padding:80px 128px;overflow:hidden}
+.intro-inner{max-width:1184px;margin:0 auto;display:flex;align-items:center;gap:80px}
+.intro-text{flex:0 0 520px;display:flex;flex-direction:column;gap:16px}
+.intro-heading{font-size:clamp(32px,3.5vw,44px)}
+.intro-body{font-size:16px;line-height:1.65;color:var(--fg3);max-width:500px}
+.intro-cards{flex:1;display:flex;gap:20px;align-items:flex-start;justify-content:center}
+.card-traditional{background:white;border:1px solid var(--divider);border-radius:12px;padding:20px;width:240px;position:relative;overflow:hidden;box-shadow:var(--shadow-md);transform:rotate(-1.31deg);flex-shrink:0}
+.card-accent-top{position:absolute;top:0;left:0;right:0;height:3px}
+.card-icon-wrap{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.card-title{font-weight:600;font-size:13px;margin-bottom:16px}
+.card-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.card-list-item{display:flex;align-items:center;gap:8px}
+.card-list-text{font-size:12px;color:var(--fg1);line-height:1.3}
+.card-rdx{background:var(--navy-800);border-radius:12px;padding:20px;width:242px;position:relative;overflow:hidden;box-shadow:var(--shadow-md);transform:rotate(6.23deg);flex-shrink:0}
+.card-accent-left{position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--navy-300)}
+
+/* FEATURES */
+.features{background:var(--cream);padding:64px 128px;overflow:hidden}
+.features-inner{max-width:1196px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+.features-header{display:flex;flex-direction:column;gap:12px;max-width:600px}
+.features-sub{font-size:16px;color:var(--fg3);line-height:1.6;max-width:580px}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{background:white;border:1px solid var(--divider);border-radius:12px;padding:20px;padding-top:36px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.feature-card-top{position:absolute;top:0;left:0;right:0;height:3px}
+.feature-icon-wrap{width:44px;height:44px;background:var(--navy-800);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+.feature-category{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.feature-title{font-weight:600;font-size:15px;color:var(--fg1);margin-bottom:8px;line-height:1.3}
+.feature-body{font-size:13px;color:var(--fg3);line-height:1.55}
+
+/* PARTNERS */
+.partners-wrapper{background:var(--bone-100)}
+.partners{display:flex;align-items:center;gap:64px;padding:28px 128px;min-height:110px}
+.partners-logos{display:flex;align-items:center;gap:50px;flex-wrap:wrap}
+.partner-logo-wrap{display:flex;align-items:center;filter:grayscale(.2);transition:filter .2s,opacity .2s;opacity:.85}
+.partner-logo-wrap:hover{filter:none;opacity:1}
+.partner-logo-wrap img{max-height:80px;object-fit:contain}
+
+/* HOW IT WORKS */
+.how{background:var(--navy-900);padding:80px 128px;overflow:hidden;position:relative}
+.how::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(111,160,226,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(111,160,226,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.how-inner{max-width:1184px;margin:0 auto;display:flex;flex-direction:column;gap:48px;position:relative;z-index:1}
+.how-header{display:flex;flex-direction:column;gap:20px}
+.step-track{display:flex;align-items:center;max-width:960px}
+.step-bubble{width:40px;height:40px;border-radius:50%;border:1px solid var(--navy-200);background:#122650;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.step-num{font-weight:700;font-size:11px;color:var(--cream)}
+.step-line{flex:1;height:1px;background:var(--navy-700);position:relative;overflow:hidden}
+.step-line::after{content:'';position:absolute;inset:0;background:var(--navy-300);transform:scaleX(0);transform-origin:left;transition:transform .85s ease;transition-delay:var(--line-delay,0s)}
+.how[data-animate].is-visible .step-line::after,.how .is-visible .step-line::after,.step-track.is-visible .step-line::after{transform:scaleX(1)}
+.step-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.step-card{display:flex;flex-direction:column;gap:10px}
+.step-icon-wrap{width:44px;height:44px;background:#122650;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-title{font-weight:600;font-size:14px;color:var(--cream);line-height:1.3}
+.step-body{font-size:12px;color:var(--navy-200);line-height:1.55}
+
+/* TEAM */
+.team-wrapper{background:#fcfbf7}
+.team{background:#fcfbf7;padding:64px 128px;overflow:hidden}
+.team-inner{max-width:1184px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.team-header{display:flex;flex-direction:column;gap:12px;max-width:700px}
+.team-sub{font-size:16px;color:var(--fg3);line-height:1.65;max-width:820px}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.team-card{background:white;border:1px solid var(--divider);border-radius:12px;overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s}
+.team-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.team-card-accent{height:3px;position:absolute;top:0;left:0;right:0}
+.team-photo-wrap{margin:16px 16px 0;height:144px;border-radius:8px;overflow:hidden;border:1px solid var(--divider);background:var(--bone-100)}
+.team-photo{width:100%;height:100%;object-fit:cover;object-position:top}
+.team-name{font-weight:600;font-size:14px;color:var(--fg1);padding:12px 16px 2px}
+.team-role{font-size:12px;color:var(--navy-400);padding:0 16px 4px}
+.team-bio{font-size:12px;color:var(--fg3);padding:0 16px 16px}
+
+/* MISSION */
+.mission{background:white;padding:80px 128px;overflow:hidden}
+.mission-inner{max-width:1184px;margin:0 auto;display:flex;gap:80px;align-items:flex-start}
+.mission-left{flex:0 0 580px;display:flex;flex-direction:column;gap:32px}
+.mission-text-block{display:flex;flex-direction:column;gap:14px}
+.mission-body{font-size:14px;color:var(--fg3);line-height:1.7;max-width:540px}
+.mission-drawing img{width:100%;height:auto;opacity:.85}
+.mission-values{flex:1;display:flex;flex-direction:column;gap:16px}
+.value-card{background:white;border:1px solid var(--navy-100);border-radius:8px;padding:16px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow-md);transition:transform .25s,box-shadow .25s}
+.value-card:hover{transform:translateX(4px);box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.value-icon-wrap{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.value-content{display:flex;flex-direction:column;gap:4px;padding:0 8px}
+.value-category{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:var(--navy-400);letter-spacing:.5px;text-transform:uppercase}
+.value-body{font-size:11px;color:var(--fg3);line-height:1.55}
+
+/* CTA */
+.cta{position:relative;min-height:540px;display:flex;align-items:center;padding:80px 128px;overflow:hidden}
+.cta-bg{position:absolute;inset:0}
+.cta-bg img{width:100%;height:114.47%;object-fit:cover;position:absolute;top:-12.11%;left:0}
+.cta-overlay{position:absolute;inset:0;background:linear-gradient(90deg,#112748 7%,rgba(17,39,72,.7) 47%,rgba(43,103,207,0) 70%)}
+.cta-content{position:relative;z-index:2;max-width:520px;display:flex;flex-direction:column;gap:24px}
+.cta-heading{font-weight:700;font-size:clamp(32px,3.5vw,44px);letter-spacing:-.44px;line-height:1.1;color:white}
+.cta-sub{font-size:18px;font-weight:500;color:var(--navy-200);line-height:1.55}
+.cta-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn-primary{display:flex;align-items:center;background:var(--navy-300);color:var(--fg1);font-weight:600;font-size:15px;padding:14px 28px;border-radius:24px;transition:background .2s,transform .2s}
+.btn-primary:hover{background:var(--navy-200);transform:translateY(-2px)}
+.btn-secondary{display:flex;align-items:center;border:1.5px solid var(--navy-200);color:white;font-weight:600;font-size:15px;padding:14px 28px;border-radius:24px;transition:background .2s,transform .2s}
+.btn-secondary:hover{background:rgba(167,198,239,.1);transform:translateY(-2px)}
+
+/* CONTACT */
+.contact{background:var(--cream);padding:80px 96px;overflow:hidden}
+.contact-inner{max-width:1248px;margin:0 auto;display:flex;gap:80px;align-items:flex-start}
+.contact-form-col{flex:0 0 540px;display:flex;flex-direction:column;gap:32px}
+.contact-header{display:flex;flex-direction:column;gap:14px}
+.contact-sub{font-size:17px;color:var(--navy-950);line-height:1.55;max-width:500px}
+.contact-form{display:flex;flex-direction:column;gap:16px}
+.field-group{display:flex;flex-direction:column;gap:6px}
+.field-label{font-weight:600;font-size:12px;color:var(--fg2)}
+.field-input{font-size:13px;color:var(--fg1);background:white;border:1.5px solid var(--bone-300);border-radius:8px;padding:10px 12px;outline:none;transition:border-color .2s;appearance:none;font-family:'Schibsted Grotesk',sans-serif}
+.field-input::placeholder{color:#8b9085}
+.field-input:focus{border-color:var(--navy-300)}
+.field-textarea{resize:vertical;min-height:80px}
+.btn-submit{font-weight:600;font-size:15px;color:white;background:var(--navy-800);border:none;border-radius:18px;padding:14px 24px;cursor:pointer;width:200px;box-shadow:var(--shadow-lg);transition:background .2s,transform .2s;font-family:'Schibsted Grotesk',sans-serif}
+.btn-submit:hover{background:var(--navy-700);transform:translateY(-2px)}
+.contact-info-col{flex:1;display:flex;flex-direction:column;gap:24px}
+.info-card{background:white;border:1px solid var(--divider);border-radius:12px;padding:24px;position:relative;overflow:hidden}
+.info-card-accent{position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--navy-400)}
+.info-title{font-weight:600;font-size:22px;letter-spacing:-.22px;color:var(--fg1);margin-bottom:20px}
+.info-list{display:flex;flex-direction:column;gap:14px;margin-bottom:20px}
+.info-item{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--fg1)}
+.info-divider{height:1px;background:var(--divider);margin:16px 0}
+.info-section-title{font-weight:600;font-size:14px;color:var(--navy-600);margin-bottom:8px}
+.info-body{font-size:12px;color:var(--fg3);line-height:1.65;margin-bottom:12px}
+.info-checks{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--fg3)}
+.contact-photo{border-radius:12px;overflow:hidden;height:218px}
+.contact-photo img{width:100%;height:100%;object-fit:cover}
+
+/* FOOTER */
+.footer{background:var(--navy-900);position:relative}
+.footer-accent-top{height:3px;background:var(--navy-300)}
+.footer-inner{display:flex;gap:64px;padding:40px 48px 24px}
+.footer-brand{flex:0 0 200px}
+.footer-logo{font-weight:800;font-size:16px;color:white;letter-spacing:1px;margin-bottom:6px}
+.footer-tagline{font-size:12px;color:var(--navy-300)}
+.footer-col{display:flex;flex-direction:column;gap:10px}
+.footer-col-title{font-size:16px;font-weight:400;color:white;margin-bottom:2px}
+.footer-link{font-size:12px;color:var(--navy-300);transition:color .2s;display:block}
+.footer-link:hover{color:var(--navy-200)}
+.footer-bottom{padding:0 48px 24px;font-size:11px;color:#738cb2}
+/* HAMBURGER */
+.nav-hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;margin-left:auto;background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--navy-50);border-radius:2px;transition:transform .35s,opacity .35s}
+.rdx-nav.menu-open .nav-hamburger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.rdx-nav.menu-open .nav-hamburger span:nth-child(2){opacity:0}
+.rdx-nav.menu-open .nav-hamburger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile-drawer{display:none;flex-direction:column;background:var(--navy-900);border-top:1px solid #1a3361;padding:8px 0 16px}
+.nav-mobile-drawer .nav-link{padding:12px 24px;font-size:15px;border-bottom:none}
+.nav-mobile-drawer .nav-cta{margin:12px 24px 0;text-align:center}
+.rdx-nav.menu-open .nav-mobile-drawer{display:flex}
+
+/* TABLET */
+@media (max-width:1024px){
+  .nav-inner{padding:0 24px}
+  .hero-content{padding:0 56px}
+  .specs{padding:24px 40px}
+  .intro{padding:64px 40px}
+  .intro-inner{gap:48px}
+  .intro-text{flex:0 0 420px}
+  .features{padding:56px 40px}
+  .partners{padding:28px 40px;gap:32px}
+  .how{padding:64px 40px}
+  .step-cards{grid-template-columns:repeat(5,1fr)}
+  .team{padding:56px 40px}
+  .mission{padding:64px 40px}
+  .mission-left{flex:0 0 460px}
+  .cta{padding:64px 40px}
+  .contact{padding:64px 56px}
+  .footer-inner{padding:36px 32px 20px;gap:40px}
+  .footer-bottom{padding:0 32px 20px}
+}
+
+/* MOBILE */
+@media (max-width:768px){
+  /* Nav */
+  .nav-inner{padding:0 20px}
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .nav-hamburger{display:flex}
+  /* Hero */
+  .hero{max-height:none;min-height:480px}
+  .hero-content{padding:0 24px}
+  .hero-heading{font-size:clamp(28px,8vw,40px)}
+  .hero-text{max-width:100%}
+  /* Specs */
+  .specs{padding:20px 20px;display:grid;grid-template-columns:1fr 1fr;gap:24px 16px}
+  .spec-divider{display:none}
+  .spec-value{font-size:24px}
+  /* Intro */
+  .intro{padding:48px 20px}
+  .intro-inner{flex-direction:column;gap:32px}
+  .intro-text{flex:1;max-width:100%}
+  .intro-cards{flex-direction:column;align-items:center;gap:16px}
+  .card-traditional,.card-rdx{transform:none;width:100%;max-width:320px}
+  /* Features */
+  .features{padding:48px 20px}
+  .features-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .section-heading{font-size:clamp(26px,7vw,36px)}
+  /* Partners */
+  .partners{padding:24px 20px;flex-direction:column;align-items:flex-start;gap:20px;min-height:auto}
+  .partners-logos{gap:24px;justify-content:flex-start}
+  .partner-logo-wrap img{max-height:56px}
+  /* How it works */
+  .how{padding:48px 20px}
+  .step-track{display:none}
+  .step-cards{grid-template-columns:1fr 1fr;gap:20px}
+  /* Team */
+  .team{padding:48px 20px}
+  .team-grid{grid-template-columns:1fr 1fr;gap:14px}
+  /* Mission */
+  .mission{padding:48px 20px}
+  .mission-inner{flex-direction:column;gap:36px}
+  .mission-left{flex:1;max-width:100%}
+  .mission-values{gap:12px}
+  /* CTA */
+  .cta{padding:56px 20px;min-height:auto}
+  .cta-content{max-width:100%}
+  /* Contact */
+  .contact{padding:48px 20px}
+  .contact-inner{flex-direction:column;gap:36px}
+  .contact-form-col{flex:1;max-width:100%}
+  /* Footer */
+  .footer-inner{flex-direction:column;gap:28px;padding:32px 20px 16px}
+  .footer-bottom{padding:0 20px 20px}
+}
+
+/* SMALL MOBILE */
+@media (max-width:480px){
+  .features-grid{grid-template-columns:1fr}
+  .step-cards{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .specs{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate],[data-animate="stagger"]{opacity:1!important;transform:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="rdx-nav">
+  <div class="nav-top-bar"></div>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">RACCODYNAMX</a>
+    <nav class="nav-links">
+      <a href="#hero" class="nav-link active">Home</a>
+      <a href="#product" class="nav-link">Product</a>
+      <a href="#team" class="nav-link">Our Team</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <a href="#contact" class="nav-cta">Book a Free Assessment</a>
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav class="nav-mobile-drawer">
+    <a href="#hero" class="nav-link active">Home</a>
+    <a href="#product" class="nav-link">Product</a>
+    <a href="#team" class="nav-link">Our Team</a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <a href="#contact" class="nav-cta">Book a Free Assessment</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img src="https://www.figma.com/api/mcp/asset/0c32cd7f-caa9-4888-a646-40b7cf91c781" alt="" aria-hidden="true" class="hero-bg-img"/>
+    <div class="hero-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-text" data-animate="fade-left">
+      <p class="overline overline--light" style="font-size:13px;letter-spacing:1.5px;">Centralized AC Level 2 Charging</p>
+      <h1 class="hero-heading">One Hub.<br/>More Charging.<br/>Less Infrastructure.</h1>
+      <div class="rule-accent"></div>
+    </div>
+  </div>
+  <div class="hero-particles" aria-hidden="true">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<div id="product">
+  <div class="divider-blue"></div>
+  <section class="specs" data-stagger-parent>
+    <div class="spec-item" data-animate="stagger"><span class="spec-value">80 A</span><span class="spec-label">Per Port, Dynamically Balanced</span></div>
+    <div class="spec-divider"></div>
+    <div class="spec-item" data-animate="stagger" data-delay="80"><span class="spec-value">19.2 kW</span><span class="spec-label">Per Port, Max Output</span></div>
+    <div class="spec-divider"></div>
+    <div class="spec-item" data-animate="stagger" data-delay="160"><span class="spec-value">6–18</span><span class="spec-label">Ports per Hub</span></div>
+    <div class="spec-divider"></div>
+    <div class="spec-item" data-animate="stagger" data-delay="240"><span class="spec-value">Up to 80%</span><span class="spec-label">Fewer Panel Upgrades</span></div>
+  </section>
+  <div class="divider-blue"></div>
+</div>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="intro-inner">
+    <div class="intro-text" data-animate="fade-left">
+      <p class="overline" style="font-size:12px;">Pioneering AI-Driven Centralized EV Charging</p>
+      <h2 class="section-heading intro-heading" style="font-size:clamp(32px,3.5vw,44px);">Less hardware.<br/>Less wiring.<br/>More charging.</h2>
+      <div class="rule-accent"></div>
+      <p class="intro-body">Most EV charging deployments require one charger per stall. Our centralized hub powers multiple stalls from a single intelligent platform, reducing installation and wiring costs while maximizing charging access, with easier maintenance.</p>
+    </div>
+    <div class="intro-cards" data-animate="fade-right" data-delay="150">
+      <div class="card-traditional">
+        <div class="card-accent-top" style="background:var(--danger)"></div>
+        <div class="card-icon-wrap" style="background:var(--danger-bg)"><span class="material-icons" style="color:var(--danger);">close</span></div>
+        <p class="card-title">Traditional</p>
+        <ul class="card-list">
+          <li class="card-list-item"><span class="material-icons" style="color:var(--danger);font-size:20px;">bolt</span><span class="card-list-text">Dedicated Charger at Every Stall</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--danger);font-size:20px;">cable</span><span class="card-list-text">Extensive Wiring Requirements</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--danger);font-size:20px;">payments</span><span class="card-list-text">Higher Cost per Charging Port</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--danger);font-size:20px;">wifi_off</span><span class="card-list-text">Network-Dependent Load Management</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--danger);font-size:20px;">phone_iphone</span><span class="card-list-text">App or RFID Required</span></li>
+        </ul>
+      </div>
+      <div class="card-rdx">
+        <div class="card-accent-left"></div>
+        <div class="card-icon-wrap" style="background:#122650;margin-left:16px"><span class="material-icons" style="color:var(--navy-300);">check_circle</span></div>
+        <p class="card-title" style="color:white;margin-left:8px;">RDX System</p>
+        <ul class="card-list" style="padding-left:8px">
+          <li class="card-list-item"><span class="material-icons" style="color:var(--navy-300);font-size:20px;">hub</span><span class="card-list-text" style="color:var(--navy-200)">Centralized Multi-Port Platform</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--navy-300);font-size:20px;">download_for_offline</span><span class="card-list-text" style="color:var(--navy-200)">Simplified Installation</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--navy-300);font-size:20px;">wifi</span><span class="card-list-text" style="color:var(--navy-200)">Reduced Wiring</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--navy-300);font-size:20px;">savings</span><span class="card-list-text" style="color:var(--navy-200)">Lower Cost per Port</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--navy-300);font-size:20px;">power</span><span class="card-list-text" style="color:var(--navy-200)">Plug &amp; Charge</span></li>
+          <li class="card-list-item"><span class="material-icons" style="color:var(--navy-300);font-size:20px;">request_page</span><span class="card-list-text" style="color:var(--navy-200)">Simple &amp; Transparent Billing</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-inner">
+    <div class="features-header" data-animate>
+      <p class="overline">Maximize Existing Electrical Capacity</p>
+      <h2 class="section-heading">Unlock Capacity<br/>You Already Have</h2>
+      <div class="rule-accent"></div>
+      <p class="features-sub">Intelligent load management enables more EV chargers within existing electrical infrastructure, often avoiding costly upgrades</p>
+    </div>
+    <div class="features-grid" data-stagger-parent id="features-grid">
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<div style="background:var(--bone-100)">
+  <div class="divider-blue"></div>
+  <section class="partners">
+    <p class="overline" data-animate>PARTNERS</p>
+    <div class="partners-logos" data-stagger-parent>
+      <div class="partner-logo-wrap" data-animate="stagger"><img src="https://www.figma.com/api/mcp/asset/b3ebcecc-99e6-4bb3-bce1-56d8bac1d529" alt="Partner" width="98" height="78" loading="lazy"/></div>
+      <div class="partner-logo-wrap" data-animate="stagger" data-delay="80"><img src="https://www.figma.com/api/mcp/asset/a7adeffb-c184-4625-877f-cea4a472d5eb" alt="Partner" width="85" height="82" loading="lazy"/></div>
+      <div class="partner-logo-wrap" data-animate="stagger" data-delay="160"><img src="https://www.figma.com/api/mcp/asset/c1d39028-4f68-417f-b24b-4565dacc308f" alt="Partner" width="140" height="80" loading="lazy"/></div>
+      <div class="partner-logo-wrap" data-animate="stagger" data-delay="240"><img src="https://www.figma.com/api/mcp/asset/bdce1bfa-88af-47c2-ac85-7c1ec6a49fc7" alt="Partner" width="140" height="80" loading="lazy"/></div>
+      <div class="partner-logo-wrap" data-animate="stagger" data-delay="320"><img src="https://www.figma.com/api/mcp/asset/8e735670-6e83-44bb-ac25-37831b8acc11" alt="Partner" width="140" height="80" loading="lazy"/></div>
+    </div>
+  </section>
+  <div class="divider-blue"></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how-it-works">
+  <div class="how-inner">
+    <div class="how-header" data-animate="fade-left">
+      <p class="overline overline--light">HOW IT WORKS</p>
+      <h2 class="section-heading section-heading--light">From site assessment<br/>to first charge</h2>
+    </div>
+    <div class="step-track" data-animate data-delay="200">
+      <div class="step-bubble"><span class="step-num">01</span></div>
+      <div class="step-line" style="--line-delay:.3s"></div>
+      <div class="step-bubble"><span class="step-num">02</span></div>
+      <div class="step-line" style="--line-delay:.42s"></div>
+      <div class="step-bubble"><span class="step-num">03</span></div>
+      <div class="step-line" style="--line-delay:.54s"></div>
+      <div class="step-bubble"><span class="step-num">04</span></div>
+      <div class="step-line" style="--line-delay:.66s"></div>
+      <div class="step-bubble"><span class="step-num">05</span></div>
+    </div>
+    <div class="step-cards" data-stagger-parent>
+      <div class="step-card" data-animate="stagger"><div class="step-icon-wrap"><span class="material-icons" style="color:var(--navy-200)">maps_home_work</span></div><h3 class="step-title">Assess Parking Area</h3><p class="step-body">We visit your building, measure your electrical supply, count stalls, and size the system — no obligation.</p></div>
+      <div class="step-card" data-animate="stagger" data-delay="90"><div class="step-icon-wrap"><span class="material-icons" style="color:var(--navy-200)">fact_check</span></div><h3 class="step-title">Permits</h3><p class="step-body">Obtaining required permits from local municipalities.</p></div>
+      <div class="step-card" data-animate="stagger" data-delay="180"><div class="step-icon-wrap"><span class="material-icons" style="color:var(--navy-200)">account_tree</span></div><h3 class="step-title">Hub Installation</h3><p class="step-body">A centralized hub is installed in your electrical room, creating the foundation for every charging stall.</p></div>
+      <div class="step-card" data-animate="stagger" data-delay="270"><div class="step-icon-wrap"><span class="material-icons" style="color:var(--navy-200)">cable</span></div><h3 class="step-title">Stall Connections</h3><p class="step-body">Low-profile cabling connects the hub to each stall, minimizing disruption and installation costs.</p></div>
+      <div class="step-card" data-animate="stagger" data-delay="360"><div class="step-icon-wrap"><span class="material-icons" style="color:var(--navy-200)">ev_station</span></div><h3 class="step-title">Plug &amp; Go</h3><p class="step-body">Residents plug in. The system identifies, charges, logs, and bills automatically.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<div id="team" style="background:#fcfbf7">
+  <div style="height:4px;background:var(--navy-300)"></div>
+  <section class="team">
+    <div class="team-inner">
+      <div class="team-header" data-animate="fade-left">
+        <p class="overline">LEADERSHIP</p>
+        <h2 class="section-heading">The people behind<br/>Raccodynamx</h2>
+        <div class="rule-accent"></div>
+        <p class="team-sub">Our team is composed of highly skilled professionals, each an expert in their field. With years of industry experience, we bring deep expertise and innovation to every project.</p>
+      </div>
+      <div class="team-grid" data-stagger-parent>
+        <article class="team-card" data-animate="stagger"><div class="team-card-accent" style="background:#3d78d1"></div><div class="team-photo-wrap"><img src="https://www.figma.com/api/mcp/asset/82827846-c880-4e7d-90bb-ea2abecca89b" alt="Mojtaba Shafa" class="team-photo" loading="lazy"/></div><p class="team-name">Mojtaba Shafa</p><p class="team-role">CEO</p><p class="team-bio">Electrical Engineering, Ph.D.</p></article>
+        <article class="team-card" data-animate="stagger" data-delay="100"><div class="team-card-accent" style="background:var(--navy-300)"></div><div class="team-photo-wrap"><img src="https://www.figma.com/api/mcp/asset/c656d8af-4128-4356-be7b-d6e85fe05155" alt="Mohammad Mah" class="team-photo" loading="lazy"/></div><p class="team-name">Mohammad Mah</p><p class="team-role">CTO</p><p class="team-bio">Electrical Engineering, Ph.D.</p></article>
+        <article class="team-card" data-animate="stagger" data-delay="200"><div class="team-card-accent" style="background:#3d78d1"></div><div class="team-photo-wrap"><img src="https://www.figma.com/api/mcp/asset/0a02c18e-5222-40c1-84c6-314e3c084c83" alt="Helen Platis" class="team-photo" loading="lazy"/></div><p class="team-name">Helen Platis</p><p class="team-role">CPO</p><p class="team-bio">Product &amp; Strategy Lead</p></article>
+        <article class="team-card" data-animate="stagger" data-delay="300"><div class="team-card-accent" style="background:#3d78d1"></div><div class="team-photo-wrap"><img src="https://www.figma.com/api/mcp/asset/7b99c6e6-e462-4af1-afd7-0dead804f3eb" alt="Zohreh Emamipour" class="team-photo" loading="lazy"/></div><p class="team-name">Zohreh Emamipour</p><p class="team-role">Project Manager</p><p class="team-bio">Operations &amp; Delivery</p></article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MISSION -->
+<section class="mission">
+  <div class="mission-inner">
+    <div class="mission-left" data-animate="fade-left">
+      <div class="mission-text-block">
+        <p class="overline">OUR MISSION</p>
+        <h2 class="section-heading">Power, Shared.</h2>
+        <div class="rule-accent"></div>
+        <p class="mission-body">We specialize in designing and developing innovative AI-Driven centralized charging solutions, uniting experts in power electronics, distribution systems, and electrical engineering.</p>
+        <p class="mission-body">Committed to sustainability and green energy, we aim to reduce carbon emissions and minimize environmental impact through cutting-edge technology.</p>
+        <p class="mission-body">Our goal is to create adaptable, efficient, and scalable charging systems that drive the global transition to clean energy.</p>
+      </div>
+      <div class="mission-drawing" data-animate data-delay="200">
+        <img src="https://www.figma.com/api/mcp/asset/3a6d5ad1-247b-477e-8dcc-34259356478c" alt="Technical drawing" loading="lazy"/>
+      </div>
+    </div>
+    <div class="mission-values" data-stagger-parent>
+      <div class="value-card" data-animate="stagger"><div class="value-icon-wrap" style="background:var(--navy-800)"><span class="material-icons" style="color:var(--navy-300)">gpp_good</span></div><div class="value-content"><p class="value-category">RELIABILITY</p><p class="value-body">Engineered for consistent performance, delivering dependable charging access for every resident, every day.</p></div></div>
+      <div class="value-card" data-animate="stagger" data-delay="80"><div class="value-icon-wrap" style="background:var(--navy-400)"><span class="material-icons" style="color:white">spa</span></div><div class="value-content"><p class="value-category">SUSTAINABILITY</p><p class="value-body">Reducing infrastructure complexity, minimizing electrical upgrades, and supporting the transition to cleaner transportation.</p></div></div>
+      <div class="value-card" data-animate="stagger" data-delay="160"><div class="value-icon-wrap" style="background:var(--navy-400)"><span class="material-icons" style="color:white">tips_and_updates</span></div><div class="value-content"><p class="value-category">INNOVATION</p><p class="value-body">Centralized charging infrastructure designed to challenge traditional EV charging models and unlock smarter, more scalable solutions.</p></div></div>
+      <div class="value-card" data-animate="stagger" data-delay="240"><div class="value-icon-wrap" style="background:var(--navy-800)"><span class="material-icons" style="color:var(--navy-300)">moving</span></div><div class="value-content"><p class="value-category">SCALABILITY</p><p class="value-body">Designed to grow with your building's needs. One centralized hub can support multiple stalls while adapting to future EV adoption.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="cta-bg">
+    <img src="https://www.figma.com/api/mcp/asset/b0f5d9d3-d6d3-4185-9e54-809e2e21feb7" alt="" aria-hidden="true" loading="lazy"/>
+    <div class="cta-overlay"></div>
+  </div>
+  <div class="cta-content" data-animate="fade-left">
+    <h2 class="cta-heading">Ready to power<br/>your building?</h2>
+    <p class="cta-sub">Talk to our team and get a free site assessment and a custom charging solution for your property.</p>
+    <div class="cta-actions">
+      <a href="#contact" class="btn-primary">Get a Quote <span class="material-icons" style="font-size:16px;margin-left:8px">arrow_forward</span></a>
+      <a href="#how-it-works" class="btn-secondary">Learn More <span class="material-icons" style="font-size:16px;margin-left:8px">arrow_forward</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-form-col" data-animate="fade-left">
+      <div class="contact-header">
+        <p class="overline">CONTACT</p>
+        <h2 class="section-heading">Start Your EV<br/>Charging Project</h2>
+        <div class="rule-accent"></div>
+        <p class="contact-sub">Tell us about your property and we'll recommend the right centralized charging solution for your building.</p>
+      </div>
+      <form class="contact-form" onsubmit="return false">
+        <div class="field-group"><label class="field-label">Full name</label><input type="text" placeholder="Your name" class="field-input"/></div>
+        <div class="field-group"><label class="field-label">Email address</label><input type="email" placeholder="you@example.com" class="field-input"/></div>
+        <div class="field-group"><label class="field-label">Phone Number</label><input type="tel" placeholder="Your phone" class="field-input"/></div>
+        <div class="field-group"><label class="field-label">Building Type</label><select class="field-input field-select"><option value="" disabled selected>Residential / Commercial</option><option>Residential</option><option>Commercial</option><option>Mixed Use</option></select></div>
+        <div class="field-group"><label class="field-label">Building Address</label><input type="text" placeholder="Address" class="field-input"/></div>
+        <div class="field-group"><label class="field-label">Message</label><textarea placeholder="Tell us about your project" class="field-input field-textarea" rows="4"></textarea></div>
+        <button type="submit" class="btn-submit">Send Message</button>
+      </form>
+    </div>
+    <div class="contact-info-col" data-animate="fade-right" data-delay="150">
+      <div class="info-card">
+        <div class="info-card-accent"></div>
+        <h3 class="info-title">Contact information</h3>
+        <div class="info-list">
+          <p class="info-item"><span class="material-icons" style="font-size:18px;color:var(--navy-400)">email</span>info@raccodynamx.com</p>
+          <p class="info-item"><span class="material-icons" style="font-size:18px;color:var(--navy-400)">phone</span>+1 778 776 3940</p>
+          <p class="info-item"><span class="material-icons" style="font-size:18px;color:var(--navy-400)">location_on</span>Burnaby, BC, Canada</p>
+          <p class="info-item"><span class="material-icons" style="font-size:18px;color:var(--navy-400)">schedule</span>Response within 1 business day</p>
+        </div>
+        <div class="info-divider"></div>
+        <p class="info-section-title">Free Site Assessment</p>
+        <p class="info-body">We'll review your building, electrical capacity, and parking layout to recommend the most effective charging infrastructure solution.</p>
+        <div class="info-checks"><p>✓ No obligation</p><p>✓ Customized recommendation</p><p>✓ Response within 1 business day</p></div>
+      </div>
+      <div class="contact-photo">
+        <img src="https://www.figma.com/api/mcp/asset/43d314a5-2d2c-4b1a-ade2-dadb66a2bced" alt="Building" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-accent-top"></div>
+  <div class="footer-inner">
+    <div class="footer-brand"><p class="footer-logo"><span style="color:var(--navy-300)">R</span>ACCODYNAMX</p><p class="footer-tagline">Centralized Level 2 EV Charging</p></div>
+    <div class="footer-col"><p class="footer-col-title">Product</p><a href="#" class="footer-link">Overview</a><a href="#" class="footer-link">Specifications</a><a href="#" class="footer-link">Installation</a><a href="#" class="footer-link">FAQ</a></div>
+    <div class="footer-col"><p class="footer-col-title">Company</p><a href="#" class="footer-link">Our Team</a><a href="#" class="footer-link">Partners</a><a href="#" class="footer-link">Press</a><a href="#" class="footer-link">Careers</a></div>
+    <div class="footer-col"><p class="footer-col-title">Contact</p><a href="#" class="footer-link">Get a Quote</a><a href="#" class="footer-link">Support</a><a href="#" class="footer-link">info@raccodynamx.ca</a></div>
+  </div>
+  <div class="footer-bottom"><p>© 2026 Raccodynamx. All rights reserved.</p></div>
+</footer>
+
+<script>
+// Features grid - generated by JS to keep HTML clean
+const features = [
+  {category:"CHARGING",icon:"bolt",title:"Centralized AC Hub",body:"Centralized infrastructure for residential and commercial environments. Quick, efficient, always on.",accent:"#3d78d1"},
+  {category:"POWER",icon:"hub",title:"AI-Driven Load Management",body:"Split-power technology lets multiple EVs charge simultaneously without overloading your panel.",accent:"#3d78d1"},
+  {category:"PLUG & CHARGE",icon:"electrical_services",title:"Plug & Charge",body:"No app, no RFID card. Plug in — the system identifies and bills automatically. Zero friction.",accent:"#6fa0e2"},
+  {category:"COST",icon:"savings",title:"Cost-Effective Installation",body:"One hub instead of many wall boxes. Lower capital, simpler maintenance, better long-term economics.",accent:"#6fa0e2"},
+  {category:"CAPACITY",icon:"electric_car",title:"Maximize Electrical Capacity",body:"Intelligent load management enables more EV chargers within existing electrical infrastructure, often avoiding costly upgrades.",accent:"#6fa0e2"},
+  {category:"FLEXIBILITY",icon:"apartment",title:"Flexible Infrastructure",body:"Adapts to parkades, surface lots, and underground garages — residential or commercial.",accent:"#6fa0e2"},
+  {category:"GHG REDUCTIONS",icon:"eco",title:"Reducing Emissions",body:"Enable more EVs, reduce GHG emissions, and support a cleaner transportation future.",accent:"#3d78d1"},
+  {category:"BILLING",icon:"request_page",title:"Smart Billing",body:"No prepaid accounts, no manual top-ups — just charge and pay automatically for the energy you use.",accent:"#3d78d1"},
+  {category:"PRICING",icon:"price_check",title:"Flexible kWh-Based Pricing",body:"A simple and cost-effective charging experience with no monthly fees — just pay for the energy you use.",accent:"#3d78d1"},
+  {category:"CONNECTION",icon:"settings_input_svideo",title:"Supports All Connectors",body:"Our units can be equipped with NACS/J1772 connectors, making it compatible for all EVs.",accent:"#3d78d1"},
+];
+const grid = document.getElementById('features-grid');
+features.forEach((f,i) => {
+  const card = document.createElement('article');
+  card.className = 'feature-card';
+  card.setAttribute('data-animate','stagger');
+  card.setAttribute('data-delay', i*60);
+  card.innerHTML = `<div class="feature-card-top" style="background:${f.accent}"></div><div class="feature-icon-wrap"><span class="material-icons" style="color:var(--navy-300)">${f.icon}</span></div><p class="feature-category" style="color:${f.accent}">${f.category}</p><h3 class="feature-title">${f.title}</h3><p class="feature-body">${f.body}</p>`;
+  grid.appendChild(card);
+});
+
+// Scroll animation observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
+      setTimeout(() => el.classList.add('is-visible'), delay);
+      observer.unobserve(el);
+    }
+  });
+}, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+
+document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+
+// Stagger parent observer
+document.querySelectorAll('[data-stagger-parent]').forEach(parent => {
+  const children = parent.querySelectorAll('[data-animate="stagger"]');
+  const pObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        children.forEach((child, i) => {
+          setTimeout(() => child.classList.add('is-visible'), i * 130);
+        });
+        pObs.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.08, rootMargin: '0px 0px -20px 0px'});
+  pObs.observe(parent);
+});
+
+// Nav scroll
+const nav = document.querySelector('.rdx-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Hamburger toggle
+const hamburger = document.querySelector('.nav-hamburger');
+hamburger.addEventListener('click', () => {
+  const open = nav.classList.toggle('menu-open');
+  hamburger.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.nav-mobile-drawer .nav-link, .nav-mobile-drawer .nav-cta').forEach(link => {
+  link.addEventListener('click', () => {
+    nav.classList.remove('menu-open');
+    hamburger.setAttribute('aria-expanded', false);
+  });
+});
+</script>
+</body>
+</html>

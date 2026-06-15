@@ -1,0 +1,81 @@
+---
+const specs = [
+  { value: "80 A", label: "Per Port, Dynamically Balanced" },
+  { value: "19.2 kW", label: "Per Port, Max Output" },
+  { value: "6–18", label: "Ports per Hub" },
+  { value: "Up to 80%", label: "Fewer Panel Upgrades" },
+];
+---
+<div class="specs-wrapper" id="product">
+  <div class="divider-blue"></div>
+  <section class="specs" data-stagger-parent>
+    {specs.map((s, i) => (
+      <>
+        {i > 0 && <div class="spec-divider"></div>}
+        <div class="spec-item" data-animate="stagger" data-delay={i * 80}>
+          <span class="spec-value">{s.value}</span>
+          <span class="spec-label">{s.label}</span>
+        </div>
+      </>
+    ))}
+  </section>
+  <div class="divider-blue"></div>
+</div>
+
+<style>
+.specs-wrapper {
+  background: var(--navy-900);
+}
+
+.divider-blue {
+  height: 2px;
+  background: var(--navy-300);
+}
+
+.specs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 128px;
+  background: var(--navy-900);
+  overflow: hidden;
+}
+
+.spec-divider {
+  width: 1px;
+  height: 52px;
+  background: #1a3866;
+  flex-shrink: 0;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.spec-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.spec-label {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 11px;
+  color: var(--navy-200);
+  max-width: 180px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .specs {
+    flex-wrap: wrap;
+    padding: 24px;
+    gap: 24px;
+  }
+  .spec-divider { display: none; }
+}
+</style>

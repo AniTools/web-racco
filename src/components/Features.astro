@@ -1,0 +1,199 @@
+---
+const features = [
+  {
+    category: "CHARGING",
+    icon: "bolt",
+    title: "Centralized AC Hub",
+    body: "Centralized infrastructure for residential and commercial environments. Quick, efficient, always on.",
+    accent: "#3d78d1",
+  },
+  {
+    category: "POWER",
+    icon: "hub",
+    title: "AI-Driven Load Management",
+    body: "Split-power technology lets multiple EVs charge simultaneously without overloading your panel.",
+    accent: "#3d78d1",
+  },
+  {
+    category: "PLUG & CHARGE",
+    icon: "electrical_services",
+    title: "Plug & Charge",
+    body: "No app, no RFID card. Plug in — the system identifies and bills automatically. Zero friction.",
+    accent: "var(--navy-300)",
+  },
+  {
+    category: "COST",
+    icon: "savings",
+    title: "Cost-Effective Installation",
+    body: "One hub instead of many wall boxes. Lower capital, simpler maintenance, better long-term economics.",
+    accent: "var(--navy-300)",
+  },
+  {
+    category: "CAPACITY",
+    icon: "electric_car",
+    title: "Maximize Existing Electrical Capacity",
+    body: "Intelligent load management enables more EV chargers within existing electrical infrastructure, often avoiding costly upgrades.",
+    accent: "var(--navy-300)",
+  },
+  {
+    category: "FLEXIBILITY",
+    icon: "apartment",
+    title: "Flexible Infrastructure",
+    body: "Adapts to parkades, surface lots, and underground garages — residential or commercial.",
+    accent: "var(--navy-300)",
+  },
+  {
+    category: "GHG REDUCTIONS",
+    icon: "eco",
+    title: "Reducing Emissions, Accelerating Electrification",
+    body: "Enable more EVs, reduce GHG emissions, and support a cleaner transportation future through smarter charging infrastructure.",
+    accent: "#3d78d1",
+  },
+  {
+    category: "BILLING",
+    icon: "request_page",
+    title: "Smart Billing",
+    body: "No prepaid accounts, no manual top-ups — just charge and pay automatically for the energy you use.",
+    accent: "#3d78d1",
+  },
+  {
+    category: "PRICING",
+    icon: "price_check",
+    title: "Flexible kWh-Based Pricing",
+    body: "A simple and cost-effective charging experience with no monthly fees — just pay for the energy you use.",
+    accent: "#3d78d1",
+  },
+  {
+    category: "CONNECTION",
+    icon: "settings_input_svideo",
+    title: "Supports All Connectors",
+    body: "Our units can be equipped with NACS/J1772 connectors, making it compatible for all EVs.",
+    accent: "#3d78d1",
+  },
+];
+---
+<section class="features">
+  <div class="features-inner">
+    <div class="features-header" data-animate>
+      <p class="overline">Maximize Existing Electrical Capacity</p>
+      <h2 class="section-heading">Unlock Capacity<br/>You Already Have</h2>
+      <div class="rule-accent"></div>
+      <p class="features-sub">Intelligent load management enables more EV chargers within existing electrical infrastructure, often avoiding costly upgrades</p>
+    </div>
+    <div class="features-grid" data-stagger-parent>
+      {features.map((f, i) => (
+        <article class="feature-card" data-animate="stagger" data-delay={i * 60}>
+          <div class="feature-card-top" style={`background: ${f.accent}`}></div>
+          <div class="feature-icon-wrap">
+            <span class="material-icons" style="color: var(--navy-300);">{f.icon}</span>
+          </div>
+          <p class="feature-category" style={`color: ${f.accent}`}>{f.category}</p>
+          <h3 class="feature-title">{f.title}</h3>
+          <p class="feature-body">{f.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.features {
+  background: var(--cream);
+  padding: 64px 128px;
+  overflow: hidden;
+}
+
+.features-inner {
+  max-width: 1196px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.features-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 600px;
+}
+
+.features-sub {
+  font-size: 16px;
+  color: var(--fg3);
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  background: white;
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  padding-top: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.feature-icon-wrap {
+  width: 44px;
+  height: 44px;
+  background: var(--navy-800);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.feature-category {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.feature-title {
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fg1);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.feature-body {
+  font-size: 13px;
+  color: var(--fg3);
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .features { padding: 48px 24px; }
+}
+
+@media (max-width: 600px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+</style>
