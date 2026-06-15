@@ -1,16 +1,9 @@
 ---
-const teamImgs = [
-  "https://www.figma.com/api/mcp/asset/82827846-c880-4e7d-90bb-ea2abecca89b",
-  "https://www.figma.com/api/mcp/asset/c656d8af-4128-4356-be7b-d6e85fe05155",
-  "https://www.figma.com/api/mcp/asset/0a02c18e-5222-40c1-84c6-314e3c084c83",
-  "https://www.figma.com/api/mcp/asset/7b99c6e6-e462-4af1-afd7-0dead804f3eb",
-];
-
 const members = [
-  { name: "Mojtaba Shafa", role: "CEO", bio: "Electrical Engineering, Ph.D.", accent: "#3d78d1" },
-  { name: "Mohammad Mah", role: "CTO", bio: "Electrical Engineering, Ph.D.", accent: "var(--navy-300)" },
-  { name: "Helen Platis", role: "CPO", bio: "Product & Strategy Lead", accent: "#3d78d1" },
-  { name: "Zohreh Emamipour", role: "Project Manager", bio: "Operations & Delivery", accent: "#3d78d1" },
+  { name: "Helen Platis",    role: "CEO",             bio: "Product & Strategy Lead",       accent: "#3d78d1",        img: "https://www.figma.com/api/mcp/asset/0a02c18e-5222-40c1-84c6-314e3c084c83" },
+  { name: "Mojtaba Shafa",   role: "CPO",             bio: "Electrical Engineering, Ph.D.", accent: "var(--navy-300)", img: "https://www.figma.com/api/mcp/asset/82827846-c880-4e7d-90bb-ea2abecca89b" },
+  { name: "Mohammad Mah",    role: "CTO",             bio: "Electrical Engineering, Ph.D.", accent: "#3d78d1",        img: "https://www.figma.com/api/mcp/asset/c656d8af-4128-4356-be7b-d6e85fe05155" },
+  { name: "Zohreh Emamipour",role: "Project Manager", bio: "Operations & Delivery",         accent: "#3d78d1",        img: "https://www.figma.com/api/mcp/asset/7b99c6e6-e462-4af1-afd7-0dead804f3eb" },
 ];
 ---
 <div class="team-wrapper" id="team">
@@ -31,7 +24,7 @@ const members = [
             <div class="team-card-accent" style={`background: ${m.accent}`}></div>
             <div class="team-photo-wrap">
               <img
-                src={teamImgs[i]}
+                src={m.img}
                 alt={m.name}
                 class="team-photo"
                 loading="lazy"
