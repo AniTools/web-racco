@@ -9,11 +9,61 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Raccodynamx — Centralized AI-Driven EV Charging. One Hub. More Charging. Less Infrastructure." />
+
+    <!-- Primary SEO -->
     <title>{title}</title>
+    <meta name="description" content="Raccodynamx delivers centralized AC Level 2 EV charging hubs for residential and commercial buildings in Burnaby, BC. One hub, up to 18 ports, 80% fewer panel upgrades." />
+    <meta name="keywords" content="EV charging, electric vehicle charging, centralized EV charging, AC Level 2 charging, EV hub, residential EV charging, commercial EV charging, Burnaby BC, smart charging, load management" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Raccodynamx" />
+    <link rel="canonical" href="https://raccodynamx.com/" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://raccodynamx.com/" />
+    <meta property="og:title"       content="Raccodynamx — Centralized EV Charging" />
+    <meta property="og:description" content="One hub powers up to 18 EV charging stalls. Less wiring, fewer panel upgrades, smarter load management for your building." />
+    <meta property="og:image"       content="https://raccodynamx.com/R_ilustrations.png" />
+    <meta property="og:locale"      content="en_CA" />
+    <meta property="og:site_name"   content="Raccodynamx" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Raccodynamx — Centralized EV Charging" />
+    <meta name="twitter:description" content="One hub powers up to 18 EV charging stalls. Less wiring, fewer panel upgrades, smarter load management for your building." />
+    <meta name="twitter:image"       content="https://raccodynamx.com/R_ilustrations.png" />
+
+    <!-- Favicon -->
+    <link rel="icon"             href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon"             href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700&family=Material+Icons&display=swap" rel="stylesheet" />
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Raccodynamx",
+      "description": "Centralized AI-driven EV charging solutions for residential and commercial buildings.",
+      "url": "https://raccodynamx.com",
+      "email": "info@raccodynamx.com",
+      "telephone": "+17787763940",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Burnaby",
+        "addressRegion": "BC",
+        "addressCountry": "CA"
+      },
+      "areaServed": "Canada",
+      "serviceType": "EV Charging Infrastructure",
+      "sameAs": []
+    }
+    </script>
   </head>
   <body>
     <slot />
